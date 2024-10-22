@@ -1,6 +1,6 @@
 'use strict'
 
-const stringWidth = require('string-width')
+const stringWidth = import('string-width')
 
 function ansiAlign (text, opts) {
   if (!text) return text
