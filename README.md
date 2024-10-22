@@ -15,28 +15,30 @@ I know people might ask questions and come up with a better solution, and my ans
 To make this work in your project you just have to add something to your package.json file depending on your package manager (npm, yarn, pnpm, bun)
 
 NPM:
-
+```
 "overrides": {
     "ansi-align": "git+https://github.com/richardk80/ansi-align.git"
 }
-
+```
 YARN:
-
+```
 "resolutions": {
     "ansi-align": "git+https://github.com/richardk80/ansi-align.git"
 }
-
+```
 PNPM:
-
+```
 "pnpm": {
     "overrides": {
       "ansi-align": "git+https://github.com/richardk80/ansi-align.git"
     }
 }
-
+```
 BUN:
 
-There's no native solution at the moment, but you can add this to your "dependencies" list in package.json and it should work: "ansi-align": "git+https://github.com/richardk80/ansi-align.git"
+There's no native solution at the moment, but you can add this to your "dependencies" list in package.json and it should work: 
+
+```"ansi-align": "git+https://github.com/richardk80/ansi-align.git"```
 
 After doing this, delete any .lock files you have in the root of your project that pertain to your package manager of choice, delete your node_modules folder and run whatever command you need to reinstall your node modules.
 
