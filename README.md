@@ -1,80 +1,43 @@
-# ansi-align
+This is a fix for using Astro JS and for installing an Astro JS project on Vercel.
 
-> align-text with ANSI support for CLIs
+This will most likely work for other frameworks too.
 
-[![Build Status](https://travis-ci.org/nexdrew/ansi-align.svg?branch=master)](https://travis-ci.org/nexdrew/ansi-align)
-[![Coverage Status](https://coveralls.io/repos/github/nexdrew/ansi-align/badge.svg?branch=master)](https://coveralls.io/github/nexdrew/ansi-align?branch=master)
-[![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
-[![Greenkeeper badge](https://badges.greenkeeper.io/nexdrew/ansi-align.svg)](https://greenkeeper.io/)
+Since this package hasn't been updated in 3 years, I decided to update it myself.
 
-Easily center- or right- align a block of text, carefully ignoring ANSI escape codes.
+Inside the index.js file, it used to say this: const stringWidth = require('string-width')
 
-E.g. turn this:
+This would break a lot of projects built with modern frameworks that work with NodeJS since you can't have a .js file with require in it.
 
-<img width="281" alt="ansi text block no alignment :(" src="https://cloud.githubusercontent.com/assets/1929625/14937509/7c3076dc-0ed7-11e6-8c16-4f6a4ccc8346.png">
+I changed this to const stringWidth = import('string-width') and now any of my projects that use it will work as before.
 
-Into this:
+I know people might ask questions and come up with a better solution, and my answer to those questions and such will be Occam's Razor. Just changing require to import is the most simple solution and it works.
 
-<img width="278" alt="ansi text block center aligned!" src="https://cloud.githubusercontent.com/assets/1929625/14937510/7c3ca0b0-0ed7-11e6-8f0a-541ca39b6e0a.png">
+To make this work in your project you just have to add something to your package.json file depending on your package manager (npm, yarn, pnpm, bun)
 
-## Install
+NPM:
 
-```sh
-npm install --save ansi-align
-```
+"overrides": {
+    "ansi-align": "git+https://github.com/richardk80/ansi-align.git"
+}
 
-```js
-var ansiAlign = require('ansi-align')
-```
+YARN:
 
-## API
+"resolutions": {
+    "ansi-align": "git+https://github.com/richardk80/ansi-align.git"
+}
 
-### `ansiAlign(text, [opts])`
+PNPM:
 
-Align the given text per the line with the greatest [`string-width`](https://github.com/sindresorhus/string-width), returning a new string (or array).
+"pnpm": {
+    "overrides": {
+      "ansi-align": "git+https://github.com/richardk80/ansi-align.git"
+    }
+}
 
-#### Arguments
+BUN:
 
-- `text`: required, string or array
+There's no native solution at the moment, but you can add this to your "dependencies" list in package.json and it should work: "ansi-align": "git+https://github.com/richardk80/ansi-align.git"
 
-    The text to align. If a string is given, it will be split using either the `opts.split` value or `'\n'` by default. If an array is given, a different array of modified strings will be returned.
+After doing this, delete any .lock files you have in the root of your project that pertain to your package manager of choice, delete your node_modules folder and run whatever command you need to reinstall your node modules.
 
-- `opts`: optional, object
-
-    Options to change behavior, see below.
-
-#### Options
-
-- `opts.align`: string, default `'center'`
-
-   The alignment mode. Use `'center'` for center-alignment, `'right'` for right-alignment, or `'left'` for left-alignment. Note that the given `text` is assumed to be left-aligned already, so specifying `align: 'left'` just returns the `text` as is (no-op).
-
-- `opts.split`: string or RegExp, default `'\n'`
-
-    The separator to use when splitting the text. Only used if text is given as a string.
-
-- `opts.pad`: string, default `' '`
-
-    The value used to left-pad (prepend to) lines of lesser width. Will be repeated as necessary to adjust alignment to the line with the greatest width.
-
-### `ansiAlign.center(text)`
-
-Alias for `ansiAlign(text, { align: 'center' })`.
-
-### `ansiAlign.right(text)`
-
-Alias for `ansiAlign(text, { align: 'right' })`.
-
-### `ansiAlign.left(text)`
-
-Alias for `ansiAlign(text, { align: 'left' })`, which is a no-op.
-
-## Similar Packages
-
-- [`center-align`](https://github.com/jonschlinkert/center-align): Very close to this package, except it doesn't support ANSI codes.
-- [`left-pad`](https://github.com/camwest/left-pad): Great for left-padding but does not support center alignment or ANSI codes.
-- Pretty much anything by the [chalk](https://github.com/chalk) team
-
-## License
-
-ISC © Contributors
+Everything should be working once again.
